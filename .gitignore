@@ -42,3 +42,4 @@ dist/
 
 # Data files
 *.jsonl
+*.csv

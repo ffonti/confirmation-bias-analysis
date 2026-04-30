@@ -5,7 +5,7 @@ Utility functions for handling data export operations.
 import os
 import json
 
-def export_to_jsonl(results_list, model_name, dataset_prefix, output_dir="../data/interim"):
+def export_to_jsonl(results_list, model_name, dataset_prefix, output_dir="../data/interim") -> str:
     """
     Exports a list of results to a JSONL file, with a structured naming convention based on the model and dataset.
     Args:

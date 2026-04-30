@@ -9,7 +9,7 @@ import time
 import re
 from src.utils import export_to_jsonl
 
-def query_llm(prompt, model_config):
+def query_llm(prompt, model_config) -> str:
     """
     Sends a prompt to the specified LLM and returns the response, with retry logic for rate limits.
     Args:
@@ -105,7 +105,7 @@ def query_llm(prompt, model_config):
 
     return None
 
-def run_generation_pipeline(dataset_df, models_config, output_prefix, output_dir="../data/interim"):
+def run_generation_pipeline(dataset_df, models_config, output_prefix, output_dir="../data/interim") -> list:
     """Runs the generation pipeline by iterating through the dataset and querying each model for each sample, saving results progressively.
     Args:
         dataset_df (pd.DataFrame): The input dataset containing claims and prompts.

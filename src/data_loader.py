@@ -54,23 +54,18 @@ def load_dataset_3_fever(file_path="../data/raw/3_fever.jsonl", sample_size=2) -
     return pd.DataFrame(samples)
 
 
-def load_dataset_4_truthfulqa(sample_size=2) -> pd.DataFrame:
+def load_dataset_4_truthfulqa(file_path="../data/raw/4_truthfulqa.jsonl", sample_size=2) -> pd.DataFrame:
     """
-    Loads the TruthfulQA dataset, extracts questions and hints, and prepares prompts that incorporate these hints to create leading and contradictory versions.
+    Loads the TruthfulQA dataset from a local JSONL file, extracts questions and hints, and prepares prompts that incorporate these hints to create leading and contradictory versions.
     Args:
+        file_path (str): Path to the TruthfulQA dataset JSONL file.
         sample_size (int): Number of samples to load. If None, loads the entire dataset.
     Returns:
         pd.DataFrame: A DataFrame containing the questions, hints, and prepared prompts for each question.
     """
 
-    # Attempt to load the TruthfulQA dataset, due to potential naming differences in HuggingFace
-    try:
-        dataset = load_dataset("truthfulqa/truthful_qa", "generation", split="validation")
-    except Exception:
-        dataset = load_dataset("truthful_qa", "generation", split="validation")
-
-    # Convert the loaded dataset into a DataFrame and select relevant columns. Drop rows where the "question" column is missing
-    df_truthfulqa = pd.DataFrame(dataset)
+    # Load the TruthfulQA dataset from the specified JSONL file
+    df_truthfulqa = pd.read_json(file_path, lines=True)
     df_truthfulqa = df_truthfulqa[["question", "correct_answers", "incorrect_answers"]].dropna(subset=["question"])
     
     # If a sample size is specified, we take a random sample of the dataset; otherwise, we use the entire dataset
@@ -122,19 +117,18 @@ def load_dataset_4_truthfulqa(sample_size=2) -> pd.DataFrame:
     return pd.DataFrame(samples)
 
 
-def load_dataset_5_mmlu_pro(sample_size=2) -> pd.DataFrame:
+def load_dataset_5_mmlu_pro(file_path="../data/raw/5_mmlu_pro.jsonl", sample_size=2) -> pd.DataFrame:
     """
-    Loads the MMLU-Pro dataset, filters for discursive categories, and prepares prompts that present multiple choice questions with leading and contradictory framing based on the provided options and correct/incorrect answers.
+    Loads the MMLU-Pro dataset from a local JSONL file, filters for discursive categories, and prepares prompts that present multiple choice questions with leading and contradictory framing based on the provided options and correct/incorrect answers.
     Args:
+        file_path (str): Path to the MMLU-Pro dataset JSONL file.
         sample_size (int): Number of samples to load. If None, loads the entire dataset.
     Returns:
         pd.DataFrame: A DataFrame containing the questions, options, hints, and prepared prompts for each question.
     """
     
-    dataset = load_dataset("TIGER-Lab/MMLU-Pro", split="test")
-
-    # Convert the loaded dataset into a DataFrame, select relevant columns, and perform initial filtering to ensure that questions and options are present and valid
-    df_mmlu = pd.DataFrame(dataset)
+    # Load the MMLU-Pro dataset from the specified JSONL file
+    df_mmlu = pd.read_json(file_path, lines=True)
     df_mmlu = df_mmlu[["question_id", "question", "options", "answer", "answer_index", "category", "src"]]
     df_mmlu = df_mmlu.dropna(subset=["question", "options"])
     df_mmlu = df_mmlu[df_mmlu["options"].apply(lambda x: isinstance(x, list) and len(x) >= 4)]

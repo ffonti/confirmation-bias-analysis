@@ -1,5 +1,12 @@
 """
 Configuration file for the claim evaluation framework.
+
+Author: Fabrizio Fontana
+University: Politecnico di Milano
+Repository: ffonti/confirmation-bias-analysis
+Supervisor: Prof. Cinzia Cappiello
+Co-supervisor: Dott. Mattia Sabella
+
 This file defines:
 - The initialization of LLM clients, using API keys loaded from environment variables.
 - The prompt templates for different claim types (neutral, leading, contradictory).

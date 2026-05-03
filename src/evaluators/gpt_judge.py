@@ -1,5 +1,12 @@
 """
 GPT Judge Evaluator for assessing agreement between claims and responses.
+
+Author: Fabrizio Fontana
+University: Politecnico di Milano
+Repository: ffonti/confirmation-bias-analysis
+Supervisor: Prof. Cinzia Cappiello
+Co-supervisor: Dott. Mattia Sabella
+
 This module includes:
 - The `GPTJudgeEvaluator` class, which uses a GPT model to evaluate the degree of agreement between a claim and a response, returning a score from 0 to 10.
 - The `compute_gpt_metrics` function, which applies the GPT-based evaluation to a DataFrame of results, adding new columns for the agreement scores of neutral, leading, and contradictory responses.

@@ -1,5 +1,12 @@
 """
 This module provides functions to load and preprocess datasets for the confirmation bias experiment.
+
+Author: Fabrizio Fontana
+University: Politecnico di Milano
+Repository: ffonti/confirmation-bias-analysis
+Supervisor: Prof. Cinzia Cappiello
+Co-supervisor: Dott. Mattia Sabella
+
 It includes:
 - `load_dataset_3_fever`: Loads the FEVER dataset, filters for 'SUPPORTS' claims, and prepares prompts based on the claim text.
 - `load_dataset_4_truthfulqa`: Loads the TruthfulQA dataset, extracts questions and hints, and prepares prompts that incorporate these hints to create leading and contradictory versions.

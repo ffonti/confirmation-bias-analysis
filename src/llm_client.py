@@ -1,5 +1,12 @@
 """
 LLM Client module for querying language models and managing the generation pipeline.
+
+Author: Fabrizio Fontana
+University: Politecnico di Milano
+Repository: ffonti/confirmation-bias-analysis
+Supervisor: Prof. Cinzia Cappiello
+Co-supervisor: Dott. Mattia Sabella
+
 This module includes:
 - The `query_llm` function, which sends prompts to the configured LLMs and handles responses, including retry logic for rate limits.
 - The `run_generation_pipeline` function, which iterates through a dataset, queries multiple LLMs for each sample, and saves results progressively using the export utility.

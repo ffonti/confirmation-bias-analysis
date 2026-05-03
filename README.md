@@ -86,7 +86,7 @@ This repository contains the source code, data pipelines, and experimental frame
 * **University:** Politecnico di Milano
 * **Degree Program:** MSc in Computer Science and Engineering – Artificial Intelligence
 * **Academic Year:** 2025 / 2026
-* **Supervisor:** Prof. Cinzia Cappiello - Politecnico di Milano
-* **Co-Supervisor:** Dott. Mattia Sabella - Politecnico di Milano
+* **Supervisor:** Prof. Cinzia Cappiello
+* **Co-Supervisor:** Dott. Mattia Sabella
 
 If you find this repository useful or use it for academic purposes, please consider referencing the methodology outlined in the main thesis document.

@@ -1,5 +1,11 @@
 """
 Utility functions for handling data export operations.
+
+Author: Fabrizio Fontana
+University: Politecnico di Milano
+Repository: ffonti/confirmation-bias-analysis
+Supervisor: Prof. Cinzia Cappiello
+Co-supervisor: Dott. Mattia Sabella
 """
 
 import os

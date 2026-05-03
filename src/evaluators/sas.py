@@ -1,5 +1,12 @@
 """
 This module implements the SAS evaluation for generated responses.
+
+Author: Fabrizio Fontana
+University: Politecnico di Milano
+Repository: ffonti/confirmation-bias-analysis
+Supervisor: Prof. Cinzia Cappiello
+Co-supervisor: Dott. Mattia Sabella
+
 It includes:
 - The `SASEvaluator` class, which uses a CrossEncoder model to compute similarity scores between claims and responses.
 - The `compute_sas_metrics` function, which applies the SAS evaluation to a DataFrame of results.

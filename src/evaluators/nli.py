@@ -1,5 +1,12 @@
 """
 NLI Evaluator for computing entailment and contradiction scores.
+
+Author: Fabrizio Fontana
+University: Politecnico di Milano
+Repository: ffonti/confirmation-bias-analysis
+Supervisor: Prof. Cinzia Cappiello
+Co-supervisor: Dott. Mattia Sabella
+
 This module includes:
 - The `NLIEvaluator` class, which uses a CrossEncoder model to compute alignment scores between claims and responses.
 - The `compute_nli_metrics` function, which applies the NLI evaluation to a DataFrame of results and computes various confirmation bias metrics based on the alignment scores.

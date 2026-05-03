@@ -64,7 +64,6 @@ Create a `.env` file in the repository root. Make sure it stays local and is ign
 # Example
 OPENAI_API_KEY="sk-proj-your-openai-api-key"
 ```
-<!-- TODO mettere tutte le api key che servono -->
 
 ## How to run the pipeline
 

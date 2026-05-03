@@ -85,7 +85,7 @@ This repository contains the source code, data pipelines, and experimental frame
 * **Author:** Fabrizio Fontana
 * **University:** Politecnico di Milano
 * **Degree Program:** MSc in Computer Science and Engineering – Artificial Intelligence
-* **Academic Year:** [2025 / 2026]
+* **Academic Year:** 2025 / 2026
 * **Supervisor:** Prof. Cinzia Cappiello - Politecnico di Milano
 * **Co-Supervisor:** Dott. Mattia Sabella - Politecnico di Milano
 

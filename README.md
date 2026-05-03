@@ -80,13 +80,13 @@ To do the analysis, run the notebooks in the `notebooks/` folder **in sequential
 
 ## Credits & Acknowledgments
 
-This repository contains the source code, data pipelines, and experimental frameworks developed for my Master's Degree Thesis. 
+This repository contains the source code, data pipelines, and experimental frameworks developed for my MSc Thesis. 
 
 * **Author:** Fabrizio Fontana
 * **University:** Politecnico di Milano
 * **Degree Program:** MSc in Computer Science and Engineering – Artificial Intelligence
 * **Academic Year:** [2025 / 2026]
-* **Supervisor:** [Prof. Cinzia Cappiello - Politecnico di Milano]
-* **Co-Supervisor:** [Dott. Mattia Sabella - Politecnico di Milano]
+* **Supervisor:** Prof. Cinzia Cappiello - Politecnico di Milano
+* **Co-Supervisor:** Dott. Mattia Sabella - Politecnico di Milano
 
 If you find this repository useful or use it for academic purposes, please consider referencing the methodology outlined in the main thesis document.

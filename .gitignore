@@ -39,3 +39,7 @@ logs/
 build/
 dist/
 *.egg-info/
+
+# Data folders
+data/interim/
+data/processed/

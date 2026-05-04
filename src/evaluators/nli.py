@@ -114,8 +114,9 @@ def compute_nli_metrics(df_results: pd.DataFrame) -> pd.DataFrame:
         r_lead = row["response_leading"]
         r_contra = row["response_contradictory"]
         
-        # Compute the NLI alignment scores for the neutral and contradictory responses against the claim
+        # Compute the NLI alignment scores for the neutral, leading, and contradictory responses against the claim
         s_neut_claim = evaluator.alignment_score(claim, r_neut)
+        s_lead_claim = evaluator.alignment_score(claim, r_lead)
         s_contra_claim = evaluator.alignment_score(claim, r_contra)
         
         # Stance Shift: difference between the alignment of the neutral response and the contradictory response to the claim
@@ -139,6 +140,9 @@ def compute_nli_metrics(df_results: pd.DataFrame) -> pd.DataFrame:
         # Add the computed NLI scores and confirmation bias metrics to the DataFrame for the current row
         df.at[index, "nli_s_neut_claim"] = s_neut_claim
         df.at[index, "nli_s_contra_claim"] = s_contra_claim
+        df.at[index, "score_neutral"] = s_neut_claim
+        df.at[index, "score_leading"] = s_lead_claim
+        df.at[index, "score_contradictory"] = s_contra_claim
         df.at[index, "cb_shift"] = cb_shift_i
         df.at[index, "cb_self"] = cb_self_i
         df.at[index, "cb_combined"] = combined_bias_value

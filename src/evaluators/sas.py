@@ -121,4 +121,9 @@ def compute_sas_metrics(df_results: pd.DataFrame, tau_sep=0.03) -> pd.DataFrame:
     df["CB_SAS_clipped"] = df["CB_SAS"].clip(-1.0, 1.0)
     df["sas_reliable"] = df["Sep"] >= tau_sep
     
+    # Add the computed similarity scores
+    df["score_neutral"] = df["s_NN"]
+    df["score_leading"] = df["s_LL"]
+    df["score_contradictory"] = df["s_LC"]
+    
     return df

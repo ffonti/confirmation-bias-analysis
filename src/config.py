@@ -34,6 +34,12 @@ client_deepseek = OpenAI(
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 client_gemini = genai
 
+# Initialize Local Ollama client (simulates OpenAI API on localhost)
+client_ollama = OpenAI(
+    base_url="http://localhost:11434/v1",
+    api_key="ollama" # Mandatory for authentication, but can be any non-empty string since Ollama doesn't use real API keys
+)
+
 # Definition of global prompt templates
 PROMPT_TEMPLATES = {
     "neutral": (
@@ -67,10 +73,17 @@ MODELS_TO_TEST = [
     #     "sleep_time": 2.0
     # },
     # Gemini
+    # {
+    #     "name": "gemini-2.5-flash-lite",
+    #     "client": client_gemini,
+    #     "provider": "gemini",
+    #     "sleep_time": 4.5
+    # },
+    # LLaMA
     {
-        "name": "gemini-2.5-flash-lite",
-        "client": client_gemini,
-        "provider": "gemini",
-        "sleep_time": 4.5
+        "name": "llama3.2",
+        "client": client_ollama,   
+        "provider": "openai", # Ollama simulates OpenAI API, so we can use "openai" as provider for consistency in the query function
+        "sleep_time": 0.0
     }
 ]

@@ -14,6 +14,7 @@ This file defines:
 """
 
 import os
+import google.generativeai as genai
 from dotenv import load_dotenv
 from openai import OpenAI
 
@@ -28,6 +29,10 @@ client_deepseek = OpenAI(
     base_url="https://models.inference.ai.azure.com",
     api_key=os.getenv("OPENAI_API_KEY")
 )
+
+# Initialize Gemini client
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+client_gemini = genai
 
 # Definition of global prompt templates
 PROMPT_TEMPLATES = {
@@ -55,10 +60,17 @@ MODELS_TO_TEST = [
     #     "sleep_time": 0.2
     # },
     # DeepSeek
+    # {
+    #     "name": "DeepSeek-R1", 
+    #     "client": client_deepseek, 
+    #     "provider": "openai",
+    #     "sleep_time": 2.0
+    # },
+    # Gemini
     {
-        "name": "DeepSeek-R1", 
-        "client": client_deepseek, 
-        "provider": "openai",
-        "sleep_time": 2.0
+        "name": "gemini-2.5-flash-lite",
+        "client": client_gemini,
+        "provider": "gemini",
+        "sleep_time": 4.5
     }
 ]

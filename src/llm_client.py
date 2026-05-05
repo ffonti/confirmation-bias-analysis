@@ -12,6 +12,8 @@ This module includes:
 - The `run_generation_pipeline` function, which iterates through a dataset, queries multiple LLMs for each sample, and saves results progressively using the export utility.
 """
 
+import os
+import json
 import time
 import re
 from src.utils import export_to_jsonl
@@ -63,8 +65,16 @@ def query_llm(prompt, model_config) -> str:
                 return text
                 
             elif provider == "gemini":
-                # TODO: Implement query logic for Gemini models if needed in the future
-                pass
+                # Querying the model using the Gemini client interface
+                model = client.GenerativeModel(model_name)
+                response = model.generate_content(system_msg + "\n\n" + prompt)
+
+                # Extracting and cleaning the response text
+                text = response.text.strip()
+
+                # Removing any <think>...</think> tags and their content if present (if Gemini uses similar formatting)
+                text = re.sub(r"<think>.*?</think>\s*", "", text, flags=re.DOTALL)
+                return text
 
             return None
   
@@ -96,9 +106,9 @@ def query_llm(prompt, model_config) -> str:
 
                     continue
                 else:
-                    # Generic rate limit error without specified wait time, we can wait 5 seconds before retrying
-                    print(f"[{model_name}] Generic rate limit error. Waiting 5s and retrying...")
-                    time.sleep(5)
+                    # Generic rate limit error without specified wait time, we can wait 60 seconds before retrying
+                    print(f"[{model_name}] Generic rate limit error. Waiting 60s and retrying...")
+                    time.sleep(60)
 
                     continue
             
@@ -107,10 +117,10 @@ def query_llm(prompt, model_config) -> str:
 
             return None
             
-    # If we exhaust all retries without success, we log the failure and return None
-    print(f"[{model_name}] Impossible process the request after {max_retries} attempts.")
+    # If we exhaust all retries without success, we log the failure and treat as DAILY LIMIT
+    print(f"[{model_name}] Impossible to process the request after {max_retries} attempts. Assuming severe exhaustion.")
 
-    return None
+    return "DAILY_LIMIT_REACHED"
 
 def run_generation_pipeline(dataset_df, models_config, output_prefix, output_dir="../data/interim") -> list:
     """Runs the generation pipeline by iterating through the dataset and querying each model for each sample, saving results progressively.
@@ -137,21 +147,39 @@ def run_generation_pipeline(dataset_df, models_config, output_prefix, output_dir
         # List to accumulate results for the current model, which will be saved progressively
         results_list = []
         
+        # Check for existing results to resume
+        safe_model_name = model_name.lower().replace("-", "_")
+        expected_output_file = os.path.join(output_dir, f"{output_prefix}_{safe_model_name}_results.jsonl")
+        
+        # Set to keep track of already processed samples to avoid duplication when resuming
+        processed_samples = set()
+        if os.path.exists(expected_output_file):
+            with open(expected_output_file, 'r', encoding='utf-8') as f:
+                for line in f:
+                    if line.strip():
+                        data = json.loads(line)
+                        results_list.append(data)
+                        processed_samples.add(data.get("sample"))
+            print(f"Resuming from {len(processed_samples)} previously saved samples...")
+
         # Iterating through each sample in the dataset
         for index, row in dataset_df.iterrows():
+            if (index + 1) in processed_samples:
+                continue
+
             print(f"Sample {index+1}/{len(dataset_df)} (Model: {model_name})")
             
             # Querying the LLM for each prompt type (neutral, leading, contradictory) and handling rate limits
             response_neutral = query_llm(row["prompt_neutral"], model_config)
-            if response_neutral == "DAILY_LIMIT_REACHED": break
+            if response_neutral in ["DAILY_LIMIT_REACHED", None]: break
             time.sleep(delay)
 
             response_leading = query_llm(row["prompt_leading"], model_config)
-            if response_leading == "DAILY_LIMIT_REACHED": break
+            if response_leading in ["DAILY_LIMIT_REACHED", None]: break
             time.sleep(delay)
 
             response_contradictory = query_llm(row["prompt_contradictory"], model_config)
-            if response_contradictory == "DAILY_LIMIT_REACHED": break
+            if response_contradictory in ["DAILY_LIMIT_REACHED", None]: break
             time.sleep(delay)
 
             # Extracting the claim text for the result entry, handling both "claim" and "premise" cases

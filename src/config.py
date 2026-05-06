@@ -99,5 +99,12 @@ MODELS_TO_TEST = [
         "client": client_ollama,   
         "provider": "openai", # Ollama simulates OpenAI API, so we can use "openai" as provider for consistency in the query function
         "sleep_time": 0.0
-    }
+    },
+    # Mistral
+    # {
+    #     "name": "mistral-nemo",
+    #     "client": client_ollama,   
+    #     "provider": "openai", # Ollama simulates OpenAI API, so we can use "openai" as provider for consistency in the query function
+    #     "sleep_time": 0.0
+    # }
 ]

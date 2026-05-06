@@ -149,7 +149,8 @@ def run_generation_pipeline(dataset_df, models_config, output_prefix, output_dir
         
         # Check for existing results to resume
         safe_model_name = model_name.lower().replace("-", "_")
-        expected_output_file = os.path.join(output_dir, f"{output_prefix}_{safe_model_name}_results.jsonl")
+        target_dir = os.path.join(output_dir, output_prefix, safe_model_name)
+        expected_output_file = os.path.join(target_dir, f"{output_prefix}_{safe_model_name}_results.jsonl")
         
         # Set to keep track of already processed samples to avoid duplication when resuming
         processed_samples = set()

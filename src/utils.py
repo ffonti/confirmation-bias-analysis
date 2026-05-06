@@ -29,8 +29,12 @@ def export_to_jsonl(results_list, model_name, dataset_prefix, output_dir="../dat
     # Sanitizing the model name
     safe_model_name = model_name.lower().replace("-", "_")
     
+    # Building the nested output directory
+    target_dir = os.path.join(output_dir, dataset_prefix, safe_model_name)
+    os.makedirs(target_dir, exist_ok=True)
+    
     # Building the output file path
-    output_file = os.path.join(output_dir, f"{dataset_prefix}_{safe_model_name}_results.jsonl")
+    output_file = os.path.join(target_dir, f"{dataset_prefix}_{safe_model_name}_results.jsonl")
 
     # Exporting the results to JSONL
     with open(output_file, 'w', encoding='utf-8') as f:

@@ -80,8 +80,15 @@ MODELS_TO_TEST = [
     #     "sleep_time": 4.5
     # },
     # LLaMA
+    # {
+    #     "name": "llama3.2",
+    #     "client": client_ollama,   
+    #     "provider": "openai", # Ollama simulates OpenAI API, so we can use "openai" as provider for consistency in the query function
+    #     "sleep_time": 0.0
+    # },
+    # qwen
     {
-        "name": "llama3.2",
+        "name": "qwen2.5",
         "client": client_ollama,   
         "provider": "openai", # Ollama simulates OpenAI API, so we can use "openai" as provider for consistency in the query function
         "sleep_time": 0.0

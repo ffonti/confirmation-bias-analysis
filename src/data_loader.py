@@ -17,7 +17,7 @@ import pandas as pd
 from datasets import load_dataset
 from src.config import PROMPT_TEMPLATES
 
-def load_dataset_3_fever(file_path="../data/raw/3_fever.jsonl", sample_size=2) -> pd.DataFrame:
+def load_dataset_3_fever(file_path="../data/raw/3_fever.jsonl", sample_size=2, random_state=None) -> pd.DataFrame:
     """
     Uploads the FEVER dataset from a JSONL file, filters for 'SUPPORTS' claims, and prepares prompts based on the claim text.
     Args:
@@ -34,8 +34,8 @@ def load_dataset_3_fever(file_path="../data/raw/3_fever.jsonl", sample_size=2) -
     df_fever = df_fever.loc[df_fever["label"] == "SUPPORTS", ["claim"]].dropna()
     
     # If a sample size is specified, we take a random sample of the dataset; otherwise, we use the entire filtered dataset
-    if sample_size:
-        df_fever = df_fever.sample(n=sample_size).reset_index(drop=True)
+    if sample_size is not None:
+        df_fever = df_fever.sample(n=sample_size, random_state=random_state).reset_index(drop=True)
     else:
         df_fever = df_fever.reset_index(drop=True)
 
@@ -54,7 +54,7 @@ def load_dataset_3_fever(file_path="../data/raw/3_fever.jsonl", sample_size=2) -
     return pd.DataFrame(samples)
 
 
-def load_dataset_4_truthfulqa(file_path="../data/raw/4_truthfulqa.jsonl", sample_size=2) -> pd.DataFrame:
+def load_dataset_4_truthfulqa(file_path="../data/raw/4_truthfulqa.jsonl", sample_size=2, random_state=None) -> pd.DataFrame:
     """
     Loads the TruthfulQA dataset from a local JSONL file, extracts questions and hints, and prepares prompts that incorporate these hints to create leading and contradictory versions.
     Args:
@@ -69,8 +69,8 @@ def load_dataset_4_truthfulqa(file_path="../data/raw/4_truthfulqa.jsonl", sample
     df_truthfulqa = df_truthfulqa[["question", "correct_answers", "incorrect_answers"]].dropna(subset=["question"])
     
     # If a sample size is specified, we take a random sample of the dataset; otherwise, we use the entire dataset
-    if sample_size:
-        df_truthfulqa = df_truthfulqa.sample(n=sample_size).reset_index(drop=True)
+    if sample_size is not None:
+        df_truthfulqa = df_truthfulqa.sample(n=sample_size, random_state=random_state).reset_index(drop=True)
     else:
         df_truthfulqa = df_truthfulqa.reset_index(drop=True)
 
@@ -117,7 +117,7 @@ def load_dataset_4_truthfulqa(file_path="../data/raw/4_truthfulqa.jsonl", sample
     return pd.DataFrame(samples)
 
 
-def load_dataset_5_mmlu_pro(file_path="../data/raw/5_mmlu_pro.jsonl", sample_size=2) -> pd.DataFrame:
+def load_dataset_5_mmlu_pro(file_path="../data/raw/5_mmlu_pro.jsonl", sample_size=2, random_state=None) -> pd.DataFrame:
     """
     Loads the MMLU-Pro dataset from a local JSONL file, filters for discursive categories, and prepares prompts that present multiple choice questions with leading and contradictory framing based on the provided options and correct/incorrect answers.
     Args:
@@ -138,8 +138,8 @@ def load_dataset_5_mmlu_pro(file_path="../data/raw/5_mmlu_pro.jsonl", sample_siz
     df_mmlu = df_mmlu[df_mmlu["category"].isin(target_categories)]
 
     # If a sample size is specified, we take a random sample of the dataset; otherwise, we use the entire filtered dataset
-    if sample_size:
-        df_mmlu = df_mmlu.sample(n=sample_size).reset_index(drop=True)
+    if sample_size is not None:
+        df_mmlu = df_mmlu.sample(n=sample_size, random_state=random_state).reset_index(drop=True)
     else:
         df_mmlu = df_mmlu.reset_index(drop=True)
 

@@ -66,12 +66,12 @@ MODELS_TO_TEST = [
     #     "sleep_time": 0.2
     # },
     # DeepSeek
-    # {
-    #     "name": "DeepSeek-R1", 
-    #     "client": client_deepseek, 
-    #     "provider": "openai",
-    #     "sleep_time": 2.0
-    # },
+    {
+        "name": "deepseek-r1:1.5b", 
+        "client": client_ollama,   
+        "provider": "openai", # Ollama simulates OpenAI API, so we can use "openai" as provider for consistency in the query function
+        "sleep_time": 0.0
+    },
     # Gemini
     # {
     #     "name": "gemini-2.5-flash-lite",
@@ -94,15 +94,22 @@ MODELS_TO_TEST = [
     #     "sleep_time": 0.0
     # },
     # Gemma
-    {
-        "name": "gemma3",
-        "client": client_ollama,   
-        "provider": "openai", # Ollama simulates OpenAI API, so we can use "openai" as provider for consistency in the query function
-        "sleep_time": 0.0
-    },
+    # {
+    #     "name": "gemma3",
+    #     "client": client_ollama,   
+    #     "provider": "openai", # Ollama simulates OpenAI API, so we can use "openai" as provider for consistency in the query function
+    #     "sleep_time": 0.0
+    # },
     # Mistral
     # {
     #     "name": "mistral-nemo",
+    #     "client": client_ollama,   
+    #     "provider": "openai", # Ollama simulates OpenAI API, so we can use "openai" as provider for consistency in the query function
+    #     "sleep_time": 0.0
+    # },
+    # Phi
+    # {
+    #     "name": "phi4-mini",
     #     "client": client_ollama,   
     #     "provider": "openai", # Ollama simulates OpenAI API, so we can use "openai" as provider for consistency in the query function
     #     "sleep_time": 0.0

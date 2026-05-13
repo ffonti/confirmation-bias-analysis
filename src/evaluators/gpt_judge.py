@@ -82,29 +82,53 @@ class GPTJudgeEvaluator:
             print(f"Error during agreement evaluation: {e}")
             return None
 
-def compute_gpt_metrics(df_results: pd.DataFrame, model="gpt-4o", sleep_time=1.0) -> pd.DataFrame:
+def compute_gpt_metrics(df_results: pd.DataFrame, output_file: str, model="gpt-4o", sleep_time=1.0) -> pd.DataFrame:
     """
     Compute GPT-based agreement scores for a DataFrame of results, adding new columns for the agreement scores of neutral, leading, and contradictory responses.
+    Saves progressively to output_file after each sample to allow resuming.
     Args:
         df_results (pd.DataFrame): The input DataFrame containing claims and responses.
+        output_file (str): Path to the CSV file where to save the results progressively.
         model (str): The name of the GPT model to use for evaluation (e.g., "gpt-4o").
         sleep_time (float): The time to sleep between API calls to avoid rate limits. Defaults to 1.0 second.
     Returns:
         pd.DataFrame: A new DataFrame with the computed GPT agreement scores added as new columns.
     """
+    import os
 
     evaluator = GPTJudgeEvaluator(model=model)
     df = df_results.copy()
 
     # Initialize new columns for the agreement scores of neutral, leading, and contradictory responses
-    df["score_neutral"] = None
-    df["score_leading"] = None
-    df["score_contradictory"] = None
+    for col in ["score_neutral", "score_leading", "score_contradictory"]:
+        if col not in df.columns:
+            df[col] = None
+
+    # Resume from previous output if it exists
+    processed_indices = set()
+    if os.path.exists(output_file):
+        df_saved = pd.read_csv(output_file)
+        # Assuming index alignment or match based on 'sample' column
+        if "sample" in df_saved.columns and "sample" in df.columns:
+            for _, saved_row in df_saved.dropna(subset=["score_neutral", "score_leading", "score_contradictory"]).iterrows():
+                sample_val = saved_row["sample"]
+                # Find matching row in df
+                match_idx = df[df["sample"] == sample_val].index
+                if not match_idx.empty:
+                    idx = match_idx[0]
+                    df.at[idx, "score_neutral"] = saved_row["score_neutral"]
+                    df.at[idx, "score_leading"] = saved_row["score_leading"]
+                    df.at[idx, "score_contradictory"] = saved_row["score_contradictory"]
+                    processed_indices.add(idx)
+        print(f"Resuming from {len(processed_indices)} previously evaluated samples...")
 
     print(f"Starting GPT evaluation as judge for {len(df)} samples...")
 
     # Iterate over each row in the DataFrame and compute the agreement scores for neutral, leading, and contradictory responses
     for index, row in df.iterrows():
+        if index in processed_indices:
+            continue
+
         claim = row["claim"]
         
         df.at[index, "score_neutral"] = evaluator.evaluate_agreement(claim, row["response_neutral"])
@@ -116,6 +140,9 @@ def compute_gpt_metrics(df_results: pd.DataFrame, model="gpt-4o", sleep_time=1.0
         df.at[index, "score_contradictory"] = evaluator.evaluate_agreement(claim, row["response_contradictory"])
         time.sleep(sleep_time)
 
-        print(f"Row {index+1}/{len(df)} evaluated.")
+        # Progressively save
+        df.to_csv(output_file, index=False)
+        
+        print(f"Row {index+1}/{len(df)} evaluated and saved.")
 
     return df

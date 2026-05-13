@@ -39,6 +39,3 @@ logs/
 build/
 dist/
 *.egg-info/
-
-# Processed data
-processed/

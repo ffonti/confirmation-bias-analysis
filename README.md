@@ -20,6 +20,7 @@ confirmation-bias-analysis/
 │   ├── data_loader.py            # ETL logic for formatting supported datasets
 │   ├── llm_client.py             # Target API client (handles retries and parsing)
 │   ├── utils.py                  # I/O utilities for streaming reads/writes (JSONL/CSV)
+│   ├── final_analysis_utils.py   # Aggregation, plotting, and markdown reporting utilities
 │   └── evaluators/               # Independent metric evaluation modules
 │       ├── nli.py                # NLI metric implementation
 │       ├── sas.py                # SAS metric implementation
@@ -48,8 +49,8 @@ This project uses a `pyproject.toml` file to handle dependencies cleanly.
 **1. Create a virtual environment (recommended):**
 ```bash
 python -m venv venv
-source venv/bin/activate  # macOS/Linux
-# venv\Scripts\activate   # Windows
+source venv/bin/activate   # macOS/Linux
+venv\Scripts\activate      # Windows
 ```
 
 **2. Install dependencies:**
@@ -61,7 +62,6 @@ pip install -e .
 **3. Configure API Keys in a `.env` file:**
 Create a `.env` file in the repository root. Make sure it stays local and is ignored by git:
 ```properties
-# Example
 OPENAI_API_KEY="sk-proj-your-openai-api-key"
 ```
 
@@ -75,7 +75,7 @@ To do the analysis, run the notebooks in the `notebooks/` folder **in sequential
    - Run `02_evaluation_nli.ipynb` to extract logical contradictions (NLI).
    - Run `02_evaluation_sas.ipynb` to calculate the semantic shifts caused by the misleading hints (SAS).
    - Run `02_evaluation_gpt.ipynb` to get baseline scores using GPT-4o as a judge.
-4. **Final Analysis (`notebooks/03_final_analysis.ipynb`)**: This merges the three separate evaluations, calculates the final `CB_OVERALL_SCORE`, and generates violin plots, correlation distributions, and performance gap charts.
+4. **Final Analysis (`notebooks/03_final_analysis.ipynb`)**: Before running this notebook, open `src/final_analysis_utils.py` and ensure that `DATASETS_TO_COMPARE` and `MODELS_TO_COMPARE` correctly list the evaluated domains to be merged. The notebook then merges the three separate evaluations, calculates the final `CB_OVERALL_SCORE`, generates comparative plots (barplots, heatmaps), and exports aggregated markdown reports.
 
 ## Credits & Acknowledgments
 

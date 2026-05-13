@@ -65,13 +65,6 @@ MODELS_TO_TEST = [
     #     "provider": "openai",
     #     "sleep_time": 0.2
     # },
-    # DeepSeek
-    {
-        "name": "deepseek-r1:1.5b", 
-        "client": client_ollama,   
-        "provider": "openai", # Ollama simulates OpenAI API, so we can use "openai" as provider for consistency in the query function
-        "sleep_time": 0.0
-    },
     # Gemini
     # {
     #     "name": "gemini-2.5-flash-lite",
@@ -79,6 +72,13 @@ MODELS_TO_TEST = [
     #     "provider": "gemini",
     #     "sleep_time": 4.5
     # },
+    # DeepSeek
+    {
+        "name": "deepseek-r1:1.5b", 
+        "client": client_ollama,   
+        "provider": "openai", # Ollama simulates OpenAI API, so we can use "openai" as provider for consistency in the query function
+        "sleep_time": 0.0
+    },
     # LLaMA
     # {
     #     "name": "llama3.2",
@@ -109,7 +109,7 @@ MODELS_TO_TEST = [
     # },
     # Phi
     # {
-    #     "name": "phi4-mini",
+    #     "name": "phi4",
     #     "client": client_ollama,   
     #     "provider": "openai", # Ollama simulates OpenAI API, so we can use "openai" as provider for consistency in the query function
     #     "sleep_time": 0.0

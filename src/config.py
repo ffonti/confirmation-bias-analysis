@@ -14,7 +14,6 @@ This file defines:
 """
 
 import os
-import google.generativeai as genai
 from dotenv import load_dotenv
 from openai import OpenAI
 
@@ -23,16 +22,6 @@ load_dotenv()
 
 # Initialize OpenAI client
 client_openai = OpenAI(api_key=os.getenv("OPENAI_API_KEY_PROF"))
-
-# Initialize DeepSeek client using GitHub models
-client_deepseek = OpenAI(
-    base_url="https://models.inference.ai.azure.com",
-    api_key=os.getenv("OPENAI_API_KEY")
-)
-
-# Initialize Gemini client
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-client_gemini = genai
 
 # Initialize Local Ollama client (simulates OpenAI API on localhost)
 client_ollama = OpenAI(
@@ -59,26 +48,19 @@ PROMPT_TEMPLATES = {
 # Setup of models to test
 MODELS_TO_TEST = [
     # GPT
-    # {
-    #     "name": "gpt-4o", 
-    #     "client": client_openai, 
-    #     "provider": "openai",
-    #     "sleep_time": 0.2
-    # },
-    # Gemini
-    # {
-    #     "name": "gemini-2.5-flash-lite",
-    #     "client": client_gemini,
-    #     "provider": "gemini",
-    #     "sleep_time": 4.5
-    # },
-    # DeepSeek
     {
-        "name": "deepseek-r1:1.5b", 
-        "client": client_ollama,   
-        "provider": "openai", # Ollama simulates OpenAI API, so we can use "openai" as provider for consistency in the query function
-        "sleep_time": 0.0
+        "name": "gpt-4o", 
+        "client": client_openai, 
+        "provider": "openai",
+        "sleep_time": 0.2
     },
+    # DeepSeek
+    # {
+    #     "name": "deepseek-r1:1.5b", 
+    #     "client": client_ollama,   
+    #     "provider": "openai", # Ollama simulates OpenAI API, so we can use "openai" as provider for consistency in the query function
+    #     "sleep_time": 0.0
+    # },
     # LLaMA
     # {
     #     "name": "llama3.2",

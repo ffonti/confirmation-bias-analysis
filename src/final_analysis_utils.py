@@ -30,7 +30,7 @@ warnings.filterwarnings("ignore")
 
 # Define constants for datasets, models, and directories
 DATASETS_TO_COMPARE = ["3_fever", "4_truthfulqa", "5_mmlu_pro"]
-MODELS_TO_COMPARE = ["llama3.2", "gemma3", "deepseek_r1_1.5b", "mistral_nemo"]
+MODELS_TO_COMPARE = ["llama3.2", "gemma3", "gpt_4o", "deepseek_r1_1.5b", "mistral_nemo", "phi4", "qwen2.5"]
 
 INTERIM_DATA_DIR = "../data/interim"
 BASE_DATA_DIR = "../data/processed"
